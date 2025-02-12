@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# This script installs Homebrew formulae and casks from a list
+
 CONFIG_FILE='./config'
 
 # Colors for messages
