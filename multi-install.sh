@@ -45,7 +45,7 @@ if [[ "${?}" -ne 0 ]]
 then
   echo -e "${YELLOW}Warning:${NC} Homebrew is not installed on the system"
   echo 'Installing Homebrew'
-  curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
 
 # Install all listed formulae and casks from the CONFIG_FILE
