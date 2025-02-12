@@ -4,7 +4,6 @@ CONFIG_FILE='./config'
 
 # Colors for messages
 RED='\033[0;31m'
-GREEN='\033[0;32m'
 YELLOW='\033[0;33m'
 NC='\033[0m'
 
@@ -40,26 +39,19 @@ fi
 
 # Check if Homebrew is installed
 brew -v &> /dev/null
-if [[ ! "${?}" -eq 0 ]]
+if [[ "${?}" -ne 0 ]]
 then
-  echo -e "${YELLOW}Homebrew is not installed on the system${NC}"
+  echo -e "${YELLOW}Warning:${NC} Homebrew is not installed on the system"
   echo 'Installing Homebrew'
   curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh
 fi
 
 # Install all listed formulae and casks from the CONFIG_FILE
-for FORMULA in $(cat "${CONFIG_FILE}")
+for PACKAGE in $(cat "${CONFIG_FILE}")
 do
-  echo "Installing ${FORMULA}"
-  brew install "${FORMULA}"
-  
-  # Check the status of the brew install command
-  if [[ "${?}" -ne 0 ]]
-  then
-    echo -e "${RED}Failed at installing ${FORMULA}${NC}\n"
-  else
-    echo -e "${GREEN}Successfully installed ${FORMULA}${NC}\n"
-  fi
+  echo "Installing ${PACKAGE}"
+  brew install "${PACKAGE}"
+  echo
 done
 
 # Remove outdated downloads for all formulae and casks
