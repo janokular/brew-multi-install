@@ -49,7 +49,7 @@ then
 fi
 
 # Install all listed formulae and casks from the PACKAGES
-while IFS= read -r PACKAGE
+while read -r PACKAGE
 do
   echo "Installing ${PACKAGE}"
   brew install "${PACKAGE}"
