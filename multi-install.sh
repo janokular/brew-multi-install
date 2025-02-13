@@ -49,12 +49,12 @@ then
 fi
 
 # Install all listed formulae and casks from the PACKAGES
-for PACKAGE in $(cat "${PACKAGES}")
+while IFS= read -r PACKAGE
 do
   echo "Installing ${PACKAGE}"
   brew install "${PACKAGE}"
   echo
-done
+done < "${PACKAGES}"
 
 # Remove outdated downloads for all formulae and casks
 brew cleanup &> /dev/null
