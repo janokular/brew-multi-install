@@ -2,7 +2,7 @@
 
 # This script installs Homebrew formulae and casks from a list
 
-CONFIG_FILE='./config'
+PACKAGES='./packages'
 
 # Colors for messages
 RED='\033[0;31m'
@@ -11,7 +11,7 @@ NC='\033[0m'
 
 usage() {
   echo "Usage: ${0} [-f FILE]"
-  echo "Install all listed Homebrew formulae and casks: default ${CONFIG_FILE}"
+  echo "Install all listed Homebrew formulae and casks: default ${PACKAGES}"
   echo -e "-f FILE\tUse FILE for the list of Homebrew formulae and casks"
   exit 1
 }
@@ -20,22 +20,22 @@ usage() {
 while getopts f:v OPTION &> /dev/null
 do
   case ${OPTION} in
-    f) CONFIG_FILE=${OPTARG} ;;
+    f) PACKAGES=${OPTARG} ;;
     ?) usage ;;
   esac
 done
 
-# Check if CONFIG_FILE exists and is a file
-if [[ ! -f "${CONFIG_FILE}" ]]
+# Check if PACKAGES exists and is a file
+if [[ ! -f "${PACKAGES}" ]]
 then
-  echo -e "${RED}Cannot open ${CONFIG_FILE}${NC}" >&2
+  echo -e "${RED}Cannot open file ${PACKAGES}${NC}" >&2
   exit 1
 fi
 
-# Check if CONFIG_FILE is not empty
-if [[ ! -s "${CONFIG_FILE}" ]]
+# Check if PACKAGES is not empty
+if [[ ! -s "${PACKAGES}" ]]
 then
-  echo -e "${RED}Provided file ${CONFIG_FILE} is empty${NC}" >&2
+  echo -e "${RED}Provided file ${PACKAGES} is empty${NC}" >&2
   exit 1
 fi
 
@@ -48,8 +48,8 @@ then
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
 
-# Install all listed formulae and casks from the CONFIG_FILE
-for PACKAGE in $(cat "${CONFIG_FILE}")
+# Install all listed formulae and casks from the PACKAGES
+for PACKAGE in $(cat "${PACKAGES}")
 do
   echo "Installing ${PACKAGE}"
   brew install "${PACKAGE}"
