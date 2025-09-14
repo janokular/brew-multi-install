@@ -24,11 +24,11 @@ shift "$(( OPTIND - 1 ))"
 # Check if user provided only one file
 if [[ "${#}" -lt 1 ]]
 then
-  echo -e 'Error: No file provided' >&2
+  echo 'Error: No file provided' >&2
   usage
 elif [[ "${#}" -gt 1 ]]
 then
-  echo -e 'Error: Too many files provided' >&2
+  echo 'Error: Too many files provided' >&2
   usage
 fi
 
@@ -38,14 +38,14 @@ PACKAGES="${1}"
 # Check if PACKAGES exists and is a file
 if [[ ! -f "${PACKAGES}" ]]
 then
-  echo -e "Error: Cannot open file ${PACKAGES}" >&2
+  echo "Error: Cannot open file ${PACKAGES}" >&2
   usage
 fi
 
 # Check if PACKAGES is not empty
 if [[ ! -s "${PACKAGES}" ]]
 then
-  echo -e "Error: Provided file ${PACKAGES} is empty" >&2
+  echo "Error: Provided file ${PACKAGES} is empty" >&2
   exit 1
 fi
 
@@ -53,7 +53,7 @@ fi
 brew -v &> /dev/null
 if [[ "${?}" -ne 0 ]]
 then
-  echo -e 'Warning: Homebrew is not installed on the system'
+  echo 'Warning: Homebrew is not installed on the system'
   echo 'Installing Homebrew'
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
