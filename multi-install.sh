@@ -60,8 +60,8 @@ if [[ "${?}" -ne 0 ]]; then
   exit 1
 fi
 
-if [[ ($install_casks = 'True' $install_formulae = 'True') \
-|| ($install_casks != 'True' && $install_formulae != 'True') ]]; then
+if [[ $install_casks = 'True' && $install_formulae = 'True' ]] \
+|| [[ $install_casks != 'True' && $install_formulae != 'True' ]]; then
   validate_files $casks_file $formulae_file
   install_packages $casks_file --cask
   install_packages $formulae_file --formulae
