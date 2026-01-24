@@ -1,18 +1,51 @@
 #!/bin/bash
 
-# This script installs Homebrew formulae and casks from a list
+# This script installs Homebrew formulae and casks from files
+
+casks_file="./casks"
+formulae_file="./formulae"
 
 usage() {
-  echo "Usage: ${0} [-c] FILE"
-  echo 'Install all listed Homebrew formulae and casks'
-  echo -e "-c\tTreat all named arguments as casks"
+  echo "${0} [-c] [-f]"
+  echo 'Install Homebrew packages'
+  echo 'By deafult packages from both files are installed'
+  echo -e "-c\tInstall packages from casks file"
+  echo -e "-f\tInstall packages from formulae file"
   exit 1
 }
 
+validate_files() {
+  local files=$@
+
+  # Check if files exist and are not empty
+  for file in $files; do
+    if [[ ! -sf "${file}" ]]; then
+      echo "${0}: Following file ${file} is empty or doesn't exist" >&2
+      exit 1
+    fi
+  done
+}
+
+install_packages() {
+  local file=$1
+  local flag=$2
+
+  # Install all listed formulae and casks from the packages
+  while read -r package; do
+    echo "Installing ${package}"
+    brew install ${flag} ${package}
+    echo
+  done < "${file}"
+
+  # Remove outdated downloads and caches for all formulae and casks
+  brew cleanup --prune=all &> /dev/null
+}
+
 # Check options provided by the user
-while getopts c option &> /dev/null; do
+while getopts cf option &> /dev/null; do
   case ${option} in
-    c) cask='--cask' ;;
+    c) install_casks='True' ;;
+    f) install_formulae='True' ;;
     ?) usage ;;
   esac
 done
@@ -20,45 +53,29 @@ done
 # Remove options while leaving the remaining arguments
 shift "$(( OPTIND - 1 ))"
 
-# Check if user provided only one file
-if [[ "${#}" -lt 1 ]]; then
-  echo 'Error: No file provided' >&2
-  usage
-elif [[ "${#}" -gt 1 ]]; then
-  echo 'Error: Too many files provided' >&2
-  usage
-fi
-
-# First argument is treated as packages
-packages="${1}"
-
-# Check if packages exists and is a file
-if [[ ! -f "${packages}" ]]; then
-  echo "Error: Cannot open file ${packages}" >&2
-  usage
-fi
-
-# Check if packages is not empty
-if [[ ! -s "${packages}" ]]; then
-  echo "Error: Provided file ${packages} is empty" >&2
-  exit 1
-fi
-
 # Check if Homebrew is installed
 brew -v &> /dev/null
 if [[ "${?}" -ne 0 ]]; then
-  echo 'Error: Homebrew is not installed on the system'
+  echo "${0}: Homebrew is not installed on the system" >&2
   exit 1
 fi
 
-# Install all listed formulae and casks from the packages
-while read -r package; do
-  echo "Installing ${package}"
-  brew install ${cask} ${package}
-  echo
-done < "${packages}"
-
-# Remove outdated downloads and caches for all formulae and casks
-brew cleanup --prune=all &> /dev/null
-
-exit 0
+if [[ $install_casks = 'True' && $install_formulae = 'True' ]]; then
+  validate_files $casks_file $formulae_file
+  install_packages $casks_file --cask
+  install_packages $formulae_file --formulae
+  exit 0
+elif [[ $install_casks = 'True' ]]; then
+  validate_files $casks_file
+  install_packages $casks_file --cask
+  exit 0
+elif [[ $install_formulae = 'True' ]]; then
+  validate_files $formulae_file
+  install_packages $formulae_file --formulae
+  exit 0
+else
+  validate_files $casks_file $formulae_file
+  install_packages $casks_file --cask
+  install_packages $formulae_file --formulae
+  exit 0
+fi
