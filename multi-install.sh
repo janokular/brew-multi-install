@@ -1,16 +1,16 @@
 #!/bin/bash
 
-# This script installs Homebrew formulae and casks from files
+# This script installs Homebrew formulae and casks listed in files
 
-casks_file="./casks"
-formulae_file="./formulae"
+casks_file="./casks.txt"
+formulae_file="./formulae.txt"
 
 usage() {
   echo "${0} [-c] [-f]"
   echo 'Install Homebrew packages'
-  echo 'By deafult packages from both files are installed'
-  echo -e "-c\tInstall packages from casks file"
-  echo -e "-f\tInstall packages from formulae file"
+  echo 'By default packages from both files are installed'
+  echo -e "-c\tOnly install packages from casks file"
+  echo -e "-f\tOnly install packages from formulae file"
   exit 1
 }
 
