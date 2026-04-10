@@ -1,4 +1,4 @@
-## Brew Multi Install
+## Brew multi install
 ### Running the script
 ```
 # Install/update packages from both casks.txt and formulae.txt files
