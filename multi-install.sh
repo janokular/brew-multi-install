@@ -17,7 +17,7 @@ function usage() {
 function check_hombrew_installation() {
   brew -v &> /dev/null
   if [[ "${?}" -ne 0 ]]; then
-    echo "${0}: Homebrew is not installed on the system" >&2
+    echo "Homebrew is not installed on the system" >&2
     exit 1
   fi
 }
