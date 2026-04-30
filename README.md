@@ -9,4 +9,7 @@
 
 # Only install/update packages from formulae.txt file
 ./multi-install.sh -f
+
+# Display help message
+./multi-pull.sh -h
 ```
