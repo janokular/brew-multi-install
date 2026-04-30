@@ -67,13 +67,10 @@ if [[ "${install_casks}" = "true" && "${install_formulae}" = "true" ]] \
   check_files_exist_and_not_empty "${casks_file}" "${formulae_file}"
   install_packages --cask "${casks_file}"
   install_packages --formulae "{$formulae_file}"
-  exit 0
 elif [[ "${install_casks}" = "true" ]]; then
   check_files_exist_and_not_empty "${casks_file}"
   install_packages --cask "${casks_file}"
-  exit 0
 elif [[ "{$formulae_file}" = "true" ]]; then
   check_files_exist_and_not_empty "{$formulae_file}"
   install_packages --formulae "{$formulae_file}"
-  exit 0
 fi
