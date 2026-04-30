@@ -26,8 +26,11 @@ function check_files_exist_and_not_empty() {
   local files=$@
 
   for file in $files; do
-    if [[ ! -sf "${file}" ]]; then
-      echo "File ${file} is empty or does not exist" >&2
+    if [[ ! -f "${file}" ]]; then
+      echo -e "File ${file} does not exist" >&2
+      exit 1
+    elif [[ ! -s "${repos_file}" ]]; then 
+      echo -e "File ${file} is empty$" >&2
       exit 1
     fi
   done
