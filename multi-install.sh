@@ -1,14 +1,14 @@
 #!/bin/bash
 
-# This script installs Homebrew formulae and casks listed in files
+# This script installs Homebrew formulae and cask listed in files
 
-casks_file="./casks.txt"
+cask_file="./cask.txt"
 formulae_file="./formulae.txt"
 
 function usage() {
   echo "usage: $(basename ${0}) [-c] [-f] [-h]"
   echo -e "\nInstall Homebrew packages (by default program is run with -sf)\n"
-  echo -e "-c\tonly install packages from ${casks_file}"
+  echo -e "-c\tonly install packages from ${cask_file}"
   echo -e "-f\tonly install packages from ${formulae_file}"
   echo -e "-h\tshow this help message and exit"
   exit 1
@@ -22,15 +22,12 @@ function check_hombrew_installation() {
   fi
 }
 
-function check_files_exist_and_not_empty() {
+function check_files_exist() {
   local files=$@
 
   for file in $files; do
     if [[ ! -f "${file}" ]]; then
       echo -e "File ${file} does not exist" >&2
-      exit 1
-    elif [[ ! -s "${repos_file}" ]]; then 
-      echo -e "File ${file} is empty$" >&2
       exit 1
     fi
   done
@@ -46,14 +43,14 @@ function install_packages() {
     echo
   done
 
-  # Remove outdated downloads and caches for all formulae and casks
+  # Remove outdated downloads and caches for all formulae and cask
   brew cleanup --prune=all &> /dev/null
 }
 
 # Check options provided by the user
 while getopts cf option &> /dev/null; do
   case ${option} in
-    c) install_casks="true" ;;
+    c) install_cask="true" ;;
     f) install_formulae="true" ;;
     h) usage ;;
     ?) usage ;;
@@ -62,15 +59,15 @@ done
 
 check_hombrew_installation
 
-if [[ "${install_casks}" = "true" && "${install_formulae}" = "true" ]] \
-|| [[ "${install_casks}" != "true" && "${install_formulae}" != "true" ]]; then
-  check_files_exist_and_not_empty "${casks_file}" "${formulae_file}"
-  install_packages --cask "${casks_file}"
-  install_packages --formulae "{$formulae_file}"
-elif [[ "${install_casks}" = "true" ]]; then
-  check_files_exist_and_not_empty "${casks_file}"
-  install_packages --cask "${casks_file}"
-elif [[ "{$formulae_file}" = "true" ]]; then
-  check_files_exist_and_not_empty "{$formulae_file}"
-  install_packages --formulae "{$formulae_file}"
+if [[ "${install_cask}" = "true" && "${install_formulae}" = "true" ]] \
+|| [[ "${install_cask}" != "true" && "${install_formulae}" != "true" ]]; then
+  check_files_exist "${cask_file}" "${formulae_file}"
+  install_packages --cask "${cask_file}"
+  install_packages --formulae "${formulae_file}"
+elif [[ "${install_cask}" = "true" ]]; then
+  check_files_exist "${cask_file}"
+  install_packages --cask "${cask_file}"
+elif [[ "${install_formulae}" = "true" ]]; then
+  check_files_exist "${formulae_file}"
+  install_packages --formulae "${formulae_file}"
 fi

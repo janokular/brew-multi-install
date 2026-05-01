@@ -1,10 +1,10 @@
 ## Brew multi install
 ### Running the script
 ```
-# Install/update packages from both casks.txt and formulae.txt files
+# Install/update packages from both cask.txt and formulae.txt files
 ./multi-install.sh
 
-# Only install/update packages from casks.txt file
+# Only install/update packages from cask.txt file
 ./multi-install.sh -c
 
 # Only install/update packages from formulae.txt file
