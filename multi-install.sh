@@ -7,14 +7,14 @@ formulae_file="./formulae.txt"
 
 function usage() {
   echo "usage: $(basename ${0}) [-c] [-f] [-h]"
-  echo -e "\nInstall Homebrew packages (by default program is run with -sf)\n"
+  echo -e "\nInstall Homebrew packages (by default program is run with -cf)\n"
   echo -e "-c\tonly install packages from ${cask_file}"
   echo -e "-f\tonly install packages from ${formulae_file}"
   echo -e "-h\tshow this help message and exit"
   exit 1
 }
 
-function check_hombrew_installation() {
+function check_homebrew_installation() {
   brew -v &> /dev/null
   if [[ "${?}" -ne 0 ]]; then
     echo "Homebrew is not installed on the system" >&2
@@ -23,7 +23,7 @@ function check_hombrew_installation() {
 }
 
 function check_files_exist() {
-  local files=$@
+  local files="${@}"
 
   for file in $files; do
     if [[ ! -f "${file}" ]]; then
@@ -48,8 +48,8 @@ function install_packages() {
 }
 
 # Check options provided by the user
-while getopts cf option &> /dev/null; do
-  case ${option} in
+while getopts "cf" option &> /dev/null; do
+  case "${option}" in
     c) install_cask="true" ;;
     f) install_formulae="true" ;;
     h) usage ;;
@@ -57,7 +57,7 @@ while getopts cf option &> /dev/null; do
   esac
 done
 
-check_hombrew_installation
+check_homebrew_installation
 
 if [[ "${install_cask}" = "true" && "${install_formulae}" = "true" ]] \
 || [[ "${install_cask}" != "true" && "${install_formulae}" != "true" ]]; then
