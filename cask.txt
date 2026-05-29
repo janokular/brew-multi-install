@@ -1,5 +1,6 @@
 balenaetcher
 bitwarden
+cyberduck
 discord
 firefox
 mac-mouse-fix
