@@ -4,6 +4,7 @@ cyberduck
 discord
 firefox
 mac-mouse-fix
+makemkv
 rectangle
 tailscale-app
 vagrant
