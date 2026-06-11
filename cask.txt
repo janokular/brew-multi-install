@@ -3,6 +3,7 @@ bitwarden
 cyberduck
 discord
 firefox
+jellyfin-media-player
 mac-mouse-fix
 makemkv
 rectangle
