@@ -1,5 +1,5 @@
 ## Brew multi install
-> [!IMPORTANT]
+> [!WARNING]
 > **Script is not fully support on Intel based mac**
 ### Running the script
 ```
