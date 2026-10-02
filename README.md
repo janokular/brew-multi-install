@@ -1,4 +1,6 @@
 ## Brew multi install
+> [!IMPORTANT]
+> **Script is not fully support on Intel based mac**
 ### Running the script
 ```
 # Install/update packages from both cask.txt and formulae.txt files
