@@ -1,7 +1,7 @@
 balenaetcher
 bitwarden
 discord
-docker
+docker-desktop
 firefox
 jellyfin-media-player
 mac-mouse-fix

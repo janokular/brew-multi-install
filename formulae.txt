@@ -1,6 +1,5 @@
 ansible
 git
-hashicorp/tap/terraform
 tmux
 tree
 vim
